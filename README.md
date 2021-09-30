@@ -1,6 +1,6 @@
 # Take Home Test Instructions
 
-  The goal of this problem is to create a drag and drop interface for a scheduling system. You will use a PetPocketbook API to initialize a days schedule, store it, and then allow the user to move appointments around and delete them.
+  The goal of this problem is to create a drag and drop interface for a scheduling system. We've created an api that initializes a days schedule, stores it, and then allows the user to move appointments around and delete them.
 
   ### Do all your work in a new branch
   When you're ready to submit just open a Pull Request on your branch
@@ -10,19 +10,15 @@
 
 # Features / Requirements
 
-  1. For any day that doesn't already have a schedule you will initialize one using the PetPocketbook API (instructions below)
-  2. Save that schedule and display it anytime someone views that same day
-  3. Allow the user to choose what date they would like to view (default is today)
-  4. Show a schedule for the given day (see Wireframe A for reference)
+  1. Allow the user to choose what date they would like to view (default is today)
+  2. Show a schedule for the given day (see Wireframe A for reference)
     * Avatar images should reflect what type of pet the appointment is for
-  5. Allow users to drag and drop appointments from one time frame to any other
-  6. Make the page mobile friendly (see Wireframe B for reference)
-  7. Allow users to delete an appointment by dragging the appointment over the trash icon (doesn't apply to mobile)
+  3. Allow users to drag and drop appointments from one time frame to any other
+  4. Make the page mobile friendly (see Wireframe B for reference)
+  5. Allow users to delete an appointment by dragging the appointment over the trash icon (doesn't apply to mobile)
 
   * There is a base React Component called Schedule in app/javascript/components/.
-  * There is a rails controller called Schedule
   * Pet avatar images are in app/assets/images
-  * API key: `jQkI63suJhqd3DtL`
 
 # Wireframes
 
@@ -56,56 +52,49 @@
 
 ### Get a schedule
 ```
-  URL: 'candidate.petpocketbook.com/schedule'
+  URL: '/api/index'
 
   METHOD: GET
 
   PARAMS:
-    api_key (string): Your personalized api key located at top of take home test README
+    date (string): The date of the schedule you'd like to get
 
   RESPONSE (format: json):
     appointments: array of appointments with the following objects
-        pet:
-          name: string
-          type: string (allowed values are: ['Dog', 'Cat', 'Bird', 'Rabbit', 'Hedgehog', 'Turtle', 'Rodent'])
-        time: string (30 minute increments from 8 AM - 6 PM, ex: '8:30 AM')
+      id: appointment id
+      pet:
+        name: string
+        type: string (allowed values are: ['Dog', 'Cat', 'Bird', 'Rabbit', 'Hedgehog', 'Turtle', 'Rodent'])
+      time: string (30 minute increments from 8 AM - 6 PM, ex: '8:30 AM')
+```
 
-  EXAMPLE RESPONSE:
-  {"appointments":[
-    {
-      "pet":{
-        "name":"Briar",
-        "type":"Hedgehog"
-      },
-      "time":"12:30 PM"
-    },
-    {
-      "pet":{
-        "name":"Beau",
-        "type":"Rabbit"
-      },
-      "time":"12:00 PM"
-    },
-    {
-      "pet":{
-        "name":"Nellie",
-        "type":"Dog"
-      },
-      "time":"3:00 PM"
-    },
-    {
-      "pet":{
-        "name":"Stella",
-        "type":"Rodent"
-      },
-      "time":"5:00 PM"
-    },
-    {
-      "pet":{
-        "name":"Bruno",
-        "type":"Rodent"
-      },
-      "time":"8:00 AM"
-    }
-  ]}
+### Move an appointment
+```
+  URL: '/api/move'
+
+  METHOD: POST
+
+  PARAMS:
+    appointment_id (integer): The id of the appointment that should be moved
+    time (string): The new time of the appointment
+
+  RESPONSE (format: json):
+    id: appointment id
+    pet:
+      name: string
+      type: string (allowed values are: ['Dog', 'Cat', 'Bird', 'Rabbit', 'Hedgehog', 'Turtle', 'Rodent'])
+    time: string (30 minute increments from 8 AM - 6 PM, ex: '8:30 AM')
+```
+
+### Delete an appointment
+```
+  URL: '/api/destroy'
+
+  METHOD: POST
+
+  PARAMS:
+    appointment_id (integer): The id of the appointment that should be moved
+
+  RESPONSE (format: json):
+    message: 'destroyed' if the appointment is successfully destroyed
 ```
