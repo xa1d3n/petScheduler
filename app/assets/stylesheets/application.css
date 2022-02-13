@@ -13,3 +13,26 @@
  *= require_tree .
  *= require_self
  */
+
+.appointment {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid black;
+  height: 100px;
+}
+
+.appointment img {
+  width: 50px;
+  height: 50px;
+}
+
+.pet {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,50 +1,72 @@
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import Calendar from 'react-calendar';
 import Pet from './Pet';
-
-const SCHEDULE_TIMES = new Map();
-SCHEDULE_TIMES.set('8:00 AM', []);
-SCHEDULE_TIMES.set('8:30 AM', []);
-SCHEDULE_TIMES.set('9:00 AM', []);
-SCHEDULE_TIMES.set('9:30 AM', []);
-SCHEDULE_TIMES.set('10:00 AM', []);
-SCHEDULE_TIMES.set('10:30 AM', []);
-SCHEDULE_TIMES.set('11:00 AM', []);
-SCHEDULE_TIMES.set('11:30 AM', []);
-SCHEDULE_TIMES.set('12:00 PM', []);
-SCHEDULE_TIMES.set('6:00 PM', []);
-SCHEDULE_TIMES.set('4:30 PM', []);
+import 'react-calendar/dist/Calendar.css';
 
 const Schedule = () => {
   const [appointments, setAppointments] = useState([]);
+  const [date, setDate] = useState(new Date());
   useEffect(() => {
     const fetchSchedules = async () => {
-      const response = await fetch('/api/index');
+      const response = await fetch(`/api/index?date=${date}`);
       const data = await response.json();
-      setAppointments(data?.appointments);
+      setAppointments(constructSchedule(data?.appointments));
     }
     fetchSchedules();
+  }, [date]);
+
+  const constructSchedule = useCallback((data) => {
+    const schedules = {
+      '8:00 AM': [],
+      '8:30 AM': [],
+      '9:00 AM': [],
+      '9:30 AM': [],
+      '10:00 AM': [],
+      '10:30 AM': [],
+      '11:00 AM': [],
+      '11:30 AM': [],
+      '12:00 PM': [],
+      '12:30 PM': [],
+      '1:00 PM': [],
+      '1:30 PM': [],
+      '2:00 PM': [],
+      '2:30 PM': [],
+      '3:00 PM': [],
+      '3:30 PM': [],
+      '4:00 PM': [],
+      '4:30 PM': [],
+      '5:00 PM': [],
+      '5:30 PM': [],
+      '6:00 PM': [],
+    };
+    data?.forEach((appointment) => {
+      schedules[appointment?.time] = [...schedules[appointment?.time], appointment];
+    });
+    console.log(schedules);
+    return schedules;
   }, []);
 
-  const constructSchedule = useMemo(() => {
-    const schedules = SCHEDULE_TIMES;
-    appointments?.forEach((appointment) => {
-      schedules.set(appointment, [...schedules.get(appointment?.time), appointment])
-    })
-
-    return ({
-      [...schedules.keys()]?.map(jobsForDate =>
-        jobsForDate.map(job => (
-          <div>dfds</div>
-        ))
-      )
-    })
-  }, [appointments]);
+  const renderAppointments = useMemo(() => {
+    return (
+      <>
+        {Object?.entries(appointments)?.map(([time, pets]) => (
+          <div key={time} className="appointment">
+            {time}
+            {pets?.map((pet) => (
+              <Pet pet={pet?.pet} />
+            ))}
+          </div>
+        ))}
+      </>
+    );
+  }, [appointments, date]);
 
   return (
     <div>
-      {constructSchedule}
+      {renderAppointments}
+      <Calendar onChange={setDate} value={date} />
     </div>
-  )
+  );
 }
 
 export default Schedule

@@ -15,7 +15,7 @@ const Pet = ({ pet }) => {
   }
 
   return (
-    <div draggable>
+    <div className="pet">
       {getImage()}
       <div>{pet?.name}</div>
     </div>
