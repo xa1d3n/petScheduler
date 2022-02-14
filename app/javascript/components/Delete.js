@@ -23,14 +23,14 @@ const Delete = ({ onDeleteAppointment }) => {
   };
 
   return (
-    <>
+    <div className='deleteWrap'>
       <span className="deleteText">Delete</span>
       <div className="delete">
         <DropTarget targetKey="pet" onHit={handleDelete}>
           <FontAwesomeIcon icon={faTrash} size="6x" />
         </DropTarget>
       </div>
-    </>
+    </div>
   );
 };
 

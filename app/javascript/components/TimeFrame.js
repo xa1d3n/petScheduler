@@ -24,11 +24,13 @@ const Delete = ({ appointments, time, onMoveAppointment }) => {
 
   return (
     <DropTarget targetKey="pet" onHit={handleMoveAppointment}>
-      <div key={time} className="appointment">
-        {time}
-        {appointments?.map((appointment) => (
-          <Appointment key={appointment?.id} appointment={appointment} />
-        ))}
+      <div className="timeFrame">
+        <div>{time}</div>
+        <div key={time} className="appointment">
+          {appointments?.map((appointment) => (
+            <Appointment key={appointment?.id} appointment={appointment} />
+          ))}
+        </div>
       </div>
     </DropTarget>
   );

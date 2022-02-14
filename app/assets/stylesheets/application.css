@@ -17,12 +17,12 @@
 .appointment {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-content: center;
   align-items: center;
   justify-content: flex-start;
-  border-bottom: 2px solid black;
-  height: 100px;
+  height: fit-content;
+  min-height: 100px;
 }
 
 .appointment img {
@@ -71,6 +71,7 @@
   top: 0;
   left: 0;
   align-self: start;
+  z-index: 9999;
 }
 
 .dateWrap {
@@ -91,4 +92,38 @@ aside {
   top: 40px;
   left: 0;
   align-self: start;
+}
+
+.calendarIcon {
+  display: none;
+}
+
+.timeFrame {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  border-bottom: 2px solid black;
+}
+
+@media only screen and (max-width: 600px) {
+  aside {
+    display: none;
+  }
+  .calendarIcon {
+    display: block;
+  }
+  header {
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .timeFrame {
+    flex-direction: column;
+  }
+  .calendar  {
+    width: 100% !important;
+  }
 }

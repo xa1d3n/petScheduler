@@ -9,6 +9,9 @@ import 'react-calendar/dist/Calendar.css';
 const Schedule = () => {
   const [appointments, setAppointments] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [isCalendarShown, setIsCalendarShown] = useState(false);
+
+  // retrieve appointments from api
   useEffect(() => {
     const fetchSchedules = async () => {
       const response = await fetch(`/api/index?date=${date}`);
@@ -69,16 +72,39 @@ const Schedule = () => {
     );
   }, [appointments, date]);
 
+  const handleCalendarChange = (e) => {
+    setIsCalendarShown(false);
+    setDate(e);
+  };
+
+  const renderCalendar = useMemo(() => {
+    return (
+      <Calendar
+        onChange={handleCalendarChange}
+        value={date}
+        className="calendar"
+      />
+    );
+  }, []);
+
   return (
     <>
-      <Header date={date} setDate={setDate} />
-      <div className="appWrap">
-        {renderAppointments}
-        <aside className="actionWrap">
-          <Calendar onChange={setDate} value={date} className="calendar" />
-          <Delete onDeleteAppointment={onDeleteAppointment} />
-        </aside>
-      </div>
+      <Header
+        date={date}
+        setDate={setDate}
+        onShowCalendar={() => setIsCalendarShown(true)}
+      />
+      {isCalendarShown ? (
+        <>{renderCalendar}</>
+      ) : (
+        <div className="appWrap">
+          {renderAppointments}
+          <aside className="actionWrap">
+            {renderCalendar}
+            <Delete onDeleteAppointment={onDeleteAppointment} />
+          </aside>
+        </div>
+      )}
     </>
   );
 };
