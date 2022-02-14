@@ -1,6 +1,15 @@
 {
   "name": "ppb_scheduler",
   "private": true,
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testPathIgnorePatterns": [
+      "<rootDir>/config/webpack/"
+    ]
+  },
   "dependencies": {
     "@babel/preset-react": "^7.6.3",
     "@fortawesome/fontawesome-svg-core": "^1.3.0",
@@ -21,7 +30,9 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
+    "jest": "^27.5.1",
     "webpack-dev-server": "^3.9.0"
   }
 }

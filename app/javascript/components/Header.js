@@ -18,9 +18,17 @@ const Header = ({ setDate, date, onShowCalendar }) => {
 
   return (
     <header className="header">
-      <FontAwesomeIcon onClick={handlePrev} icon={faAngleLeft} />
+      <FontAwesomeIcon
+        onClick={handlePrev}
+        icon={faAngleLeft}
+        title="previous day"
+      />
       <span className="dateWrap">{date?.toDateString()}</span>
-      <FontAwesomeIcon onClick={handleNext} icon={faAngleRight} />
+      <FontAwesomeIcon
+        onClick={handleNext}
+        icon={faAngleRight}
+        title="next day"
+      />
       <FontAwesomeIcon
         onClick={onShowCalendar}
         className="calendarIcon"
