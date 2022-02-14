@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Calendar from 'react-calendar';
-import Pet from './Pet';
+import TimeFrame from './TimeFrame';
+import Delete from './Delete';
+import Header from './Header';
+import { constructEmptySchedule } from './Schedule.helper';
 import 'react-calendar/dist/Calendar.css';
 
 const Schedule = () => {
@@ -11,62 +14,73 @@ const Schedule = () => {
       const response = await fetch(`/api/index?date=${date}`);
       const data = await response.json();
       setAppointments(constructSchedule(data?.appointments));
-    }
+    };
     fetchSchedules();
   }, [date]);
 
   const constructSchedule = useCallback((data) => {
-    const schedules = {
-      '8:00 AM': [],
-      '8:30 AM': [],
-      '9:00 AM': [],
-      '9:30 AM': [],
-      '10:00 AM': [],
-      '10:30 AM': [],
-      '11:00 AM': [],
-      '11:30 AM': [],
-      '12:00 PM': [],
-      '12:30 PM': [],
-      '1:00 PM': [],
-      '1:30 PM': [],
-      '2:00 PM': [],
-      '2:30 PM': [],
-      '3:00 PM': [],
-      '3:30 PM': [],
-      '4:00 PM': [],
-      '4:30 PM': [],
-      '5:00 PM': [],
-      '5:30 PM': [],
-      '6:00 PM': [],
-    };
+    const schedules = constructEmptySchedule();
     data?.forEach((appointment) => {
-      schedules[appointment?.time] = [...schedules[appointment?.time], appointment];
+      schedules[appointment?.time] = [
+        ...schedules[appointment?.time],
+        appointment,
+      ];
     });
-    console.log(schedules);
     return schedules;
   }, []);
 
+  const removeFromAppointments = (appointment) => {
+    return {
+      ...appointments,
+      [appointment?.time]: appointments[appointment?.time].filter(
+        (a) => a?.id !== appointment?.id
+      ),
+    };
+  };
+
+  const onMoveAppointment = (oldAppointment, newAppointment) => {
+    const appointmentsRemoved = removeFromAppointments(oldAppointment);
+    const updatedAppointments = {
+      ...appointmentsRemoved,
+      [newAppointment?.time]: [
+        ...appointmentsRemoved[newAppointment?.time],
+        newAppointment,
+      ],
+    };
+    setAppointments(updatedAppointments);
+  };
+
+  const onDeleteAppointment = (appointment) => {
+    setAppointments(removeFromAppointments(appointment));
+  };
+
   const renderAppointments = useMemo(() => {
     return (
-      <>
-        {Object?.entries(appointments)?.map(([time, pets]) => (
-          <div key={time} className="appointment">
-            {time}
-            {pets?.map((pet) => (
-              <Pet pet={pet?.pet} />
-            ))}
-          </div>
+      <div className="schedule">
+        {Object?.entries(appointments)?.map(([time, petAppointments]) => (
+          <TimeFrame
+            appointments={petAppointments}
+            time={time}
+            key={time}
+            onMoveAppointment={onMoveAppointment}
+          />
         ))}
-      </>
+      </div>
     );
   }, [appointments, date]);
 
   return (
-    <div>
-      {renderAppointments}
-      <Calendar onChange={setDate} value={date} />
-    </div>
+    <>
+      <Header date={date} setDate={setDate} />
+      <div className="appWrap">
+        {renderAppointments}
+        <aside className="actionWrap">
+          <Calendar onChange={setDate} value={date} className="calendar" />
+          <Delete onDeleteAppointment={onDeleteAppointment} />
+        </aside>
+      </div>
+    </>
   );
-}
+};
 
-export default Schedule
+export default Schedule;

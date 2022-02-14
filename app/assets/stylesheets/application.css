@@ -21,7 +21,7 @@
   align-content: center;
   align-items: center;
   justify-content: flex-start;
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid black;
   height: 100px;
 }
 
@@ -35,4 +35,60 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.appWrap {
+  grid-template-areas:
+    'schedule schedule schedule calendar'
+    'schedule schedule schedule delete';
+  display: grid;
+  grid-template-rows: 50px 1fr 30px;
+  grid-template-columns: 150px 1fr;
+}
+
+.schedule {
+  grid-area: schedule;
+}
+
+.calendar {
+  grid-area: calendar;
+}
+
+.delete {
+  grid-area: delete;
+  border: 2px solid black;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.header {
+  padding-bottom: 20px;
+  border-bottom: 2px solid black;
+  position: sticky;
+  top: 0;
+  left: 0;
+  align-self: start;
+}
+
+.dateWrap {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.header svg {
+  cursor: pointer;
+}
+
+.deleteText {
+  margin-left: 10px;
+}
+
+aside {
+  position: sticky;
+  top: 40px;
+  left: 0;
+  align-self: start;
 }
