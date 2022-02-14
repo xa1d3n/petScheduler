@@ -4,7 +4,7 @@ import { DragDropContainer } from 'react-drag-drop-container';
 
 
 const Appointment = ({ appointment }) => {
-  const { id, pet } = appointment;
+  const { pet } = appointment;
   const getImage = () => {
     try {
       const image = require(`../../assets/images/${pet?.type}`);
@@ -28,6 +28,11 @@ const Appointment = ({ appointment }) => {
 };
 
 Appointment.propTypes = {
-  pet: PropTypes.shape({ name: PropTypes.string, type: PropTypes.string }).isRequired,
+  appointment: PropTypes.shape({
+    id: PropTypes.number,
+    type: PropTypes.string,
+    pet: PropTypes.shape({ name: PropTypes.string, type: PropTypes.string })
+      .isRequired,
+  }).isRequired,
 };
 export default Appointment

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Appointment from './Appointment';
 import { DropTarget } from 'react-drag-drop-container';
 
-const Delete = ({ appointments, time, onMoveAppointment }) => {
+const TimeFrame = ({ appointments, time, onMoveAppointment }) => {
   const handleMoveAppointment = (e) => {
     const csrf = document
       .querySelector("meta[name='csrf-token']")
@@ -36,7 +36,9 @@ const Delete = ({ appointments, time, onMoveAppointment }) => {
   );
 };
 
-Delete.propTypes = {
-  greeting: PropTypes.number,
+TimeFrame.propTypes = {
+  onMoveAppointment: PropTypes.func.isRequired,
+  time: PropTypes.string.isRequired,
+  appointments: PropTypes.array
 };
-export default Delete;
+export default TimeFrame;

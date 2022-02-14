@@ -31,7 +31,8 @@ const Header = ({ setDate, date, onShowCalendar }) => {
 };
 
 Header.propTypes = {
-  pet: PropTypes.shape({ name: PropTypes.string, type: PropTypes.string })
-    .isRequired,
+  setDate: PropTypes.func,
+  date: PropTypes.instanceOf(Date),
+  onShowCalendar: PropTypes.func,
 };
 export default Header;

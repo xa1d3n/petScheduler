@@ -35,6 +35,6 @@ const Delete = ({ onDeleteAppointment }) => {
 };
 
 Delete.propTypes = {
-  greeting: PropTypes.number,
+  onDeleteAppointment: PropTypes.func.isRequired,
 };
 export default Delete;
